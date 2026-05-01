@@ -115,8 +115,56 @@
   .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
 
   /* ── MAP ── */
-  .map-wrap { display: grid; grid-template-columns: 1fr 280px; gap: 14px; }
+  .map-wrap { display: grid; grid-template-columns: 3fr 1fr; gap: 14px; }
   .map-side { display: flex; flex-direction: column; gap: 14px; }
+
+  /* Map side stat cards with gradient border */
+  .map-stat-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px 20px;
+    position: relative;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  .map-stat-card::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #3B82F6 0%, #7C3AED 100%);
+    z-index: -1;
+  }
+  .map-stat-card .stat-lbl { color: #5E6C84; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .map-stat-card .stat-val { font-size: 26px; font-weight: 800; color: #1D4ED8; line-height: 1.1; letter-spacing: -0.5px; }
+  .map-stat-card .stat-foot { font-size: 11px; color: #5E6C84; margin-top: 4px; }
+  .map-growth-badge { display: inline-block; background: linear-gradient(135deg,#3B82F6,#7C3AED); color: #fff; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-top: 6px; }
+
+  /* ── COIN-FLIP BUBBLE MAP ── */
+  .bubble-card { background: #fff; border-radius: 14px; border: 1px solid #E8EAED; box-shadow: 0 1px 4px rgba(23,43,77,0.06); padding: 18px 16px 14px; overflow: visible; }
+  .bubble-stage { position: relative; width: 100%; aspect-ratio: 773 / 521.2; overflow: visible; }
+  .coin { position: absolute; transform-style: preserve-3d; perspective: 600px; cursor: pointer; }
+  .coin-inner {
+    width: 100%; height: 100%; position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 50%;
+  }
+  .coin-inner.flipped { transform: rotateY(180deg); }
+  .coin-face {
+    position: absolute; inset: 0; border-radius: 50%;
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.18); overflow: hidden;
+  }
+  .coin-back { transform: rotateY(180deg); }
+  .coin-abbr  { font-weight: 700; font-family: sans-serif; line-height: 1; }
+  .coin-num   { font-weight: 700; font-family: sans-serif; line-height: 1; }
+  .coin-label { font-family: sans-serif; opacity: 0.75; }
+  .coin-note  { font-family: sans-serif; font-weight: 600; margin-top: 2px; }
+  .bubble-legend { display: flex; align-items: center; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  .bubble-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .bubble-legend-label { font-size: 10px; color: #888; }
 
   /* ── BARS ── */
   .bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
@@ -285,78 +333,39 @@
     <section id="attendance">
       <p class="sec-lbl">Attendance by region · 2026</p>
       <div class="map-wrap">
-        <div class="card">
-          <svg viewBox="0 0 420 250" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;padding:18px 16px 12px;">
-            <path d="M38,42 L32,58 L28,88 L30,112 L36,122 L46,126 L54,120 L66,110 L70,98 L76,82 L78,64 L74,48 L66,38 L54,34 Z" fill="#1D9E75" stroke="#fff" stroke-width="1.5"/>
-            <text x="52" y="83" text-anchor="middle" font-size="9" fill="#E1F5EE" font-family="sans-serif" font-weight="700">BC</text>
-            <text x="52" y="94" text-anchor="middle" font-size="7.5" fill="#9FE1CB" font-family="sans-serif">33 cos</text>
-            <path d="M78,48 L76,64 L76,98 L78,118 L80,126 L106,124 L108,104 L108,72 L106,50 L94,40 L82,38 Z" fill="#2DB887" stroke="#fff" stroke-width="1.5"/>
-            <text x="93" y="84" text-anchor="middle" font-size="9" fill="#E1F5EE" font-family="sans-serif" font-weight="700">AB</text>
-            <text x="93" y="95" text-anchor="middle" font-size="7.5" fill="#9FE1CB" font-family="sans-serif">22 cos</text>
-            <path d="M108,50 L106,72 L108,104 L106,124 L132,124 L134,104 L134,72 L132,50 Z" fill="#5DCAA5" stroke="#fff" stroke-width="1.5"/>
-            <text x="120" y="89" text-anchor="middle" font-size="9" fill="#085041" font-family="sans-serif" font-weight="700">SK</text>
-            <text x="120" y="100" text-anchor="middle" font-size="7.5" fill="#085041" font-family="sans-serif">4 cos</text>
-            <path d="M134,50 L132,72 L134,104 L132,124 L134,130 L146,134 L158,130 L162,120 L164,104 L162,72 L160,52 L148,44 Z" fill="#9FE1CB" stroke="#fff" stroke-width="1.5"/>
-            <text x="148" y="90" text-anchor="middle" font-size="9" fill="#085041" font-family="sans-serif" font-weight="700">MB</text>
-            <text x="148" y="101" text-anchor="middle" font-size="7.5" fill="#085041" font-family="sans-serif">8 cos</text>
-            <path d="M162,72 L160,52 L168,40 L180,34 L194,30 L208,36 L216,48 L220,64 L222,82 L220,102 L214,118 L206,128 L196,136 L182,140 L168,142 L162,136 L162,120 L164,104 Z" fill="#0F6E56" stroke="#fff" stroke-width="1.5"/>
-            <text x="191" y="88" text-anchor="middle" font-size="9" fill="#E1F5EE" font-family="sans-serif" font-weight="700">ON</text>
-            <text x="191" y="99" text-anchor="middle" font-size="7.5" fill="#9FE1CB" font-family="sans-serif">147 cos</text>
-            <path d="M216,48 L222,36 L234,26 L252,22 L268,28 L278,40 L280,56 L274,74 L264,86 L250,94 L234,98 L220,100 L220,82 L222,64 Z" fill="#5DCAA5" stroke="#fff" stroke-width="1.5"/>
-            <text x="250" y="62" text-anchor="middle" font-size="9" fill="#085041" font-family="sans-serif" font-weight="700">QC</text>
-            <text x="250" y="73" text-anchor="middle" font-size="7.5" fill="#085041" font-family="sans-serif">17 cos</text>
-            <path d="M278,80 L274,92 L278,104 L288,108 L296,102 L298,90 L294,78 L284,74 Z" fill="#9FE1CB" stroke="#fff" stroke-width="1.5"/>
-            <text x="287" y="95" text-anchor="middle" font-size="7" fill="#085041" font-family="sans-serif" font-weight="700">NB</text>
-            <path d="M294,106 L288,114 L284,126 L290,132 L300,130 L308,122 L310,110 L302,104 Z" fill="#9FE1CB" stroke="#fff" stroke-width="1.5"/>
-            <text x="297" y="121" text-anchor="middle" font-size="7" fill="#085041" font-family="sans-serif" font-weight="700">NS</text>
-            <path d="M310,28 L306,40 L310,52 L320,56 L330,52 L336,42 L332,30 L322,24 Z" fill="#9FE1CB" stroke="#fff" stroke-width="1.5"/>
-            <text x="320" y="43" text-anchor="middle" font-size="7.5" fill="#085041" font-family="sans-serif" font-weight="700">NL</text>
-            <path d="M18,10 L12,24 L18,36 L28,38 L36,32 L38,18 L30,8 Z" fill="#C8EEE3" stroke="#fff" stroke-width="1.5"/>
-            <text x="25" y="26" text-anchor="middle" font-size="7" fill="#085041" font-family="sans-serif">YT</text>
-            <path d="M38,12 L36,22 L42,36 L60,32 L78,36 L84,24 L78,12 L60,6 Z" fill="#D3D1C7" stroke="#fff" stroke-width="1.5"/>
-            <text x="61" y="24" text-anchor="middle" font-size="7" fill="#5F5E5A" font-family="sans-serif">NWT</text>
-            <path d="M84,12 L88,22 L106,26 L124,20 L144,16 L162,20 L168,30 L168,40 L160,52 L148,44 L134,50 L108,50 L94,40 L82,38 L78,36 L84,24 Z" fill="#D3D1C7" stroke="#fff" stroke-width="1.5"/>
-            <text x="128" y="34" text-anchor="middle" font-size="7" fill="#5F5E5A" font-family="sans-serif">NU</text>
-            <circle cx="308" cy="94" r="5.5" fill="#C8EEE3" stroke="#fff" stroke-width="1"/>
-            <text x="308" y="97" text-anchor="middle" font-size="6" fill="#085041" font-family="sans-serif" font-weight="700">PE</text>
-            <rect x="342" y="26" width="70" height="40" rx="7" fill="#F1EFE8" stroke="#C8C6BC" stroke-width="0.8"/>
-            <text x="377" y="42" text-anchor="middle" font-size="8" fill="#5F5E5A" font-family="sans-serif" font-weight="600">Outside CAN</text>
-            <text x="377" y="57" text-anchor="middle" font-size="10" fill="#2C2C2A" font-family="sans-serif" font-weight="700">12 cos · 4.6%</text>
-            <rect x="342" y="76" width="70" height="48" rx="7" fill="#E3FCEF" stroke="#00875A" stroke-width="0.8"/>
-            <text x="377" y="92" text-anchor="middle" font-size="8" fill="#006644" font-family="sans-serif" font-weight="600">Western growth</text>
-            <text x="377" y="106" text-anchor="middle" font-size="8.5" fill="#006644" font-family="sans-serif">BC +32% YoY</text>
-            <text x="377" y="118" text-anchor="middle" font-size="8.5" fill="#006644" font-family="sans-serif">AB +22% YoY</text>
-            <rect x="342" y="134" width="70" height="44" rx="7" fill="#0F6E56" stroke="#1D9E75" stroke-width="0.8"/>
-            <text x="377" y="150" text-anchor="middle" font-size="8" fill="#9FE1CB" font-family="sans-serif" font-weight="600">Ontario</text>
-            <text x="377" y="165" text-anchor="middle" font-size="11" fill="#E1F5EE" font-family="sans-serif" font-weight="700">147 cos</text>
-            <text x="377" y="174" text-anchor="middle" font-size="7.5" fill="#5DCAA5" font-family="sans-serif">56% of attendees</text>
-            <text x="16" y="216" font-size="8" fill="#97A0AF" font-family="sans-serif">Attendance weight</text>
-            <rect x="16" y="222" width="13" height="7" rx="2" fill="#C8EEE3"/>
-            <rect x="31" y="222" width="13" height="7" rx="2" fill="#9FE1CB"/>
-            <rect x="46" y="222" width="13" height="7" rx="2" fill="#5DCAA5"/>
-            <rect x="61" y="222" width="13" height="7" rx="2" fill="#2DB887"/>
-            <rect x="76" y="222" width="13" height="7" rx="2" fill="#1D9E75"/>
-            <rect x="91" y="222" width="13" height="7" rx="2" fill="#0F6E56"/>
-            <text x="16" y="238" font-size="7.5" fill="#97A0AF" font-family="sans-serif">Low → High</text>
-            <rect x="118" y="222" width="13" height="7" rx="2" fill="#D3D1C7"/>
-            <text x="133" y="231" font-size="7.5" fill="#97A0AF" font-family="sans-serif">Territory (no data)</text>
-          </svg>
+
+        <!-- Coin-flip bubble map -->
+        <div class="bubble-card" id="bubbleMapWrap">
+          <div class="bubble-stage" id="bubbleStage"></div>
+          <div class="bubble-legend">
+            <div class="bubble-legend-dot" style="background:#c8daea"></div>
+            <span class="bubble-legend-label">Low</span>
+            <div class="bubble-legend-dot" style="background:#6ecbff"></div>
+            <div class="bubble-legend-dot" style="background:#0096fc"></div>
+            <div class="bubble-legend-dot" style="background:#0071ce"></div>
+            <div class="bubble-legend-dot" style="background:#003d66"></div>
+            <span class="bubble-legend-label">High &nbsp;|</span>
+            <div class="bubble-legend-dot" style="background:#d0d2d3"></div>
+            <span class="bubble-legend-label">Territory no data</span>
+          </div>
         </div>
+
+        <!-- Right stat cards -->
         <div class="map-side">
-          <div class="card card-p">
+          <div class="map-stat-card">
             <p class="stat-lbl">Total MF units represented</p>
-            <p class="stat-val" style="font-size:28px;">893,650</p>
+            <p class="stat-val">893,650</p>
             <div class="stat-foot">across all attending companies</div>
           </div>
-          <div class="card card-p">
+          <div class="map-stat-card">
             <p class="stat-lbl">Commercial sq ft managed</p>
-            <p class="stat-val" style="font-size:28px;">1.84B</p>
+            <p class="stat-val">1.84B</p>
             <div class="stat-foot">sq ft under management</div>
           </div>
-          <div class="card card-p">
+          <div class="map-stat-card">
             <p class="stat-lbl">Fastest growing regions YoY</p>
-            <p class="stat-val" style="font-size:22px;letter-spacing:-0.5px;">BC &amp; Alberta</p>
-            <div class="stat-foot"><span class="badge-g">BC +32% &nbsp;·&nbsp; AB +22%</span></div>
+            <p class="stat-val" style="font-size:20px;letter-spacing:-0.5px;">BC &amp; Alberta</p>
+            <div class="map-growth-badge">BC +32% · AB +22%</div>
           </div>
         </div>
       </div>
@@ -523,6 +532,74 @@
     });
     links.forEach((l, i) => l.classList.toggle('active', sections[i] === current));
   }, { passive: true });
+
+  /* ── COIN-FLIP BUBBLE MAP ── */
+  (function () {
+    const stage = document.getElementById('bubbleStage');
+    const inners = [];
+    const W = 773, H = 521.2;
+
+    const bubbles = [
+      { abbr:'YT',  cos:0,   note:'',                 fillF:'#6ecbff', fillB:'#38a8e0', tcF:'#003d66', tcB:'#fff', cx:73.5,  cy:133.5, r:27.4 },
+      { abbr:'NWT', cos:0,   note:'',                 fillF:'#d0d2d3', fillB:'#a0a2a3', tcF:'#5E6C84', tcB:'#fff', cx:136.4, cy:121.3, r:27.4 },
+      { abbr:'NU',  cos:0,   note:'',                 fillF:'#d0d2d3', fillB:'#a0a2a3', tcF:'#5E6C84', tcB:'#fff', cx:210.5, cy:141.2, r:27.4 },
+      { abbr:'NL',  cos:0,   note:'',                 fillF:'#6ecbff', fillB:'#38a8e0', tcF:'#003d66', tcB:'#fff', cx:712.3, cy:177.0, r:27.7 },
+      { abbr:'PE',  cos:0,   note:'',                 fillF:'#d0d2d3', fillB:'#a0a2a3', tcF:'#5E6C84', tcB:'#fff', cx:680.2, cy:299.7, r:27.4 },
+      { abbr:'NS',  cos:0,   note:'',                 fillF:'#6ecbff', fillB:'#38a8e0', tcF:'#003d66', tcB:'#fff', cx:648.1, cy:343.8, r:27.1 },
+      { abbr:'NB',  cos:0,   note:'',                 fillF:'#6ecbff', fillB:'#38a8e0', tcF:'#003d66', tcB:'#fff', cx:641.2, cy:259.4, r:42.6 },
+      { abbr:'BC',  cos:33,  note:'+32% YoY',         fillF:'#00538c', fillB:'#003d66', tcF:'#fff',    tcB:'#fff', cx:85.6,  cy:230.6, r:51.8 },
+      { abbr:'SK',  cos:4,   note:'',                 fillF:'#0096fc', fillB:'#0071ce', tcF:'#fff',    tcB:'#fff', cx:263.6, cy:206.2, r:46.8 },
+      { abbr:'MB',  cos:8,   note:'',                 fillF:'#6ecbff', fillB:'#38a8e0', tcF:'#003d66', tcB:'#fff', cx:364.0, cy:215.5, r:46.8 },
+      { abbr:'QC',  cos:17,  note:'',                 fillF:'#0071ce', fillB:'#005b99', tcF:'#fff',    tcB:'#fff', cx:560.8, cy:194.0, r:50.4 },
+      { abbr:'AB',  cos:22,  note:'+22% YoY',         fillF:'#005b99', fillB:'#003d66', tcF:'#fff',    tcB:'#fff', cx:171.6, cy:230.3, r:46.8 },
+      { abbr:'ON',  cos:147, note:'56% of attendees', fillF:'#003d66', fillB:'#00538c', tcF:'#fff',    tcB:'#fff', cx:450.5, cy:235.9, r:59.0 },
+    ];
+
+    bubbles.forEach((d, idx) => {
+      const diam   = d.r * 2;
+      const cxPct  = (d.cx / W) * 100;
+      const cyPct  = (d.cy / H) * 100;
+      const fsA    = Math.max(8,  d.r * 0.30);
+      const fsN    = Math.max(10, d.r * 0.34);
+      const fsL    = Math.max(6,  d.r * 0.15);
+      const cosD   = d.cos > 0 ? d.cos : '—';
+
+      const coin = document.createElement('div');
+      coin.className = 'coin';
+      coin.style.cssText = `left:${cxPct}%;top:${cyPct}%;width:${diam}px;height:${diam}px;transform:translate(-50%,-50%);z-index:${idx+1};`;
+
+      const inner = document.createElement('div');
+      inner.className = 'coin-inner';
+
+      const front = document.createElement('div');
+      front.className = 'coin-face coin-front';
+      front.style.background = d.fillF;
+      front.innerHTML = `<span class="coin-abbr" style="font-size:${fsA}px;color:${d.tcF};">${d.abbr}</span>`;
+
+      const back = document.createElement('div');
+      back.className = 'coin-face coin-back';
+      back.style.background = d.fillB;
+      const nc = '#6ecbff';
+      let bk = `<span class="coin-abbr" style="font-size:${fsL*1.05}px;color:${d.tcB};opacity:0.65;margin-bottom:1px;">${d.abbr}</span>`;
+      bk += `<span class="coin-num" style="font-size:${fsN}px;color:${d.tcB};">${cosD}</span>`;
+      bk += `<span class="coin-label" style="font-size:${fsL}px;color:${d.tcB};">companies</span>`;
+      if (d.note) bk += `<span class="coin-note" style="font-size:${fsL*.9}px;color:${nc};">${d.note}</span>`;
+      back.innerHTML = bk;
+
+      inner.appendChild(front);
+      inner.appendChild(back);
+      coin.appendChild(inner);
+      stage.appendChild(coin);
+      inners.push(inner);
+    });
+
+    stage.addEventListener('mouseenter', () => {
+      inners.forEach((inn, i) => { inn.style.transitionDelay = `${i*25}ms`; inn.classList.add('flipped'); });
+    });
+    stage.addEventListener('mouseleave', () => {
+      inners.forEach((inn, i) => { inn.style.transitionDelay = `${i*18}ms`; inn.classList.remove('flipped'); });
+    });
+  })();
 </script>
 
 </body>
